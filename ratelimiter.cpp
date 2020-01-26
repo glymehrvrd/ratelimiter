@@ -42,11 +42,11 @@ void rate_limiter::BucketRateLimiter::advance(double now, double &newLast, doubl
 	}
 }
 
-bool rate_limiter::BucketRateLimiter::allowAt(double t)
+bool rate_limiter::BucketRateLimiter::allowAt(double now)
 {
     double last;
     double tokens;
-    this->advance(t, last, tokens);
+    this->advance(now, last, tokens);
 
     // Calculate the remaining number of tokens resulting from the request.
     tokens--;
@@ -63,8 +63,12 @@ bool rate_limiter::BucketRateLimiter::allowAt(double t)
     // Update state
     if (ok)
     {
-        this->last_ = t;
+        this->last_ = now;
         this->tokens_ = tokens;
+    }
+    else
+    {
+        this->last_ = last;
     }
 
     return ok;

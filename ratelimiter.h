@@ -44,7 +44,7 @@ namespace rate_limiter
 
     private:
         static void repairParam(double &limit, int &burst);
-        bool allowAt(double t);
+        bool allowAt(double now);
         void advance(double now, double &newLast, double &newTokens);
 
         double limit_; // 允许的事件发生速率（据此可估算令牌桶大小)
